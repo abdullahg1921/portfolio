@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Muhammad Abdullah | DevOps Engineer</title>
+<meta name="description" content="DevOps engineer working with Terraform, AWS, Kubernetes and CI/CD. I turn access, infrastructure and deployments into reviewed code.">
+<meta name="theme-color" content="#0A111C">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F3F5F8;
+  --surface: #FFFFFF;
+  --ink: #0E1A2B;
+  --muted: #4B5A6E;
+  --line: #D6DCE5;
+  --accent: #2D5BE3;
+  --on-accent: #FFFFFF;
+  --chip: #E7ECF4;
+  --display: 'Bricolage Grotesque', 'Segoe UI', system-ui, sans-serif;
+  --body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0A111C; --surface: #111B2B; --ink: #E8EDF5; --muted: #9AA8BD;
+    --line: #22304A; --accent: #7DA2FF; --on-accent: #0A111C; --chip: #182539;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0A111C; --surface: #111B2B; --ink: #E8EDF5; --muted: #9AA8BD;
+  --line: #22304A; --accent: #7DA2FF; --on-accent: #0A111C; --chip: #182539;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body {
+  margin: 0; background: var(--bg); color: var(--ink);
+  font-family: var(--body); font-size: 17px; line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--accent); text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+.skip { position: absolute; left: -999px; top: 8px; background: var(--accent); color: var(--on-accent); padding: 8px 14px; border-radius: 6px; z-index: 50; }
+.skip:focus { left: 8px; }
+.wrap { width: min(1080px, 100% - 40px); margin-inline: auto; }
+
+/* Header */
+header.top {
+  position: sticky; top: 0; z-index: 20;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+header.top .wrap { display: flex; align-items: center; justify-content: space-between; min-height: 60px; gap: 16px; }
+.brand { font-family: var(--display); font-weight: 700; font-size: 1.05rem; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+nav { display: flex; align-items: center; gap: 22px; }
+nav a { color: var(--muted); text-decoration: none; font-size: 0.95rem; font-weight: 500; }
+nav a:hover { color: var(--ink); }
+.theme-btn {
+  background: transparent; border: 1px solid var(--line); color: var(--ink);
+  width: 38px; height: 38px; border-radius: 50%; cursor: pointer; font-size: 1rem; line-height: 1;
+}
+.theme-btn:hover { border-color: var(--accent); }
+
+/* Hero */
+.hero { padding: 72px 0 56px; }
+.hero-grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; }
+h1 {
+  font-family: var(--display); font-weight: 800; letter-spacing: -0.03em;
+  font-size: clamp(2.3rem, 5.2vw, 3.9rem); line-height: 1.03; margin: 0 0 22px;
+}
+.lede { font-size: 1.12rem; color: var(--muted); max-width: 52ch; margin: 0 0 14px; }
+.where { color: var(--muted); font-size: 0.98rem; margin: 0 0 28px; }
+.actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.btn {
+  display: inline-block; text-decoration: none; font-weight: 600; font-size: 0.98rem;
+  padding: 12px 20px; border-radius: 8px; border: 1px solid var(--accent);
+}
+.btn.primary { background: var(--accent); color: var(--on-accent); }
+.btn.primary:hover { filter: brightness(1.08); }
+.btn.ghost { color: var(--accent); background: transparent; }
+.btn.ghost:hover { background: var(--chip); }
+.links { display: flex; gap: 18px; margin-top: 22px; font-size: 0.97rem; }
+
+/* Plan panel (always dark, it is a terminal) */
+.plan {
+  background: #0B1220; color: #C9D4E5; border-radius: 12px;
+  border: 1px solid #22304A; font-family: var(--mono); font-size: 0.82rem; line-height: 1.7;
+  overflow: hidden; box-shadow: 0 18px 40px -22px rgba(8, 16, 34, 0.6);
+}
+.plan-bar { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; border-bottom: 1px solid #22304A; color: #7B8AA3; font-size: 0.75rem; }
+.plan-body { padding: 16px 18px 20px; overflow-x: auto; white-space: pre; min-height: 270px; }
+.plan .ln { display: block; }
+.plan .ln.hide { visibility: hidden; }
+.plan .cmd { color: #E8EDF5; }
+.plan .dim { color: #7B8AA3; }
+.plan .chg { color: #F2B35A; }
+.plan .add { color: #4FD1A1; font-weight: 500; }
+.plan-cap { margin: 10px 4px 0; font-size: 0.82rem; color: var(--muted); }
+
+/* Numbers */
+.numbers { margin-top: 56px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); display: grid; grid-template-columns: repeat(4, 1fr); }
+.numbers div { padding: 22px 20px 22px 0; }
+.numbers div + div { padding-left: 22px; border-left: 1px solid var(--line); }
+.numbers b { display: block; font-family: var(--display); font-size: 1.9rem; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+.numbers span { color: var(--muted); font-size: 0.92rem; }
+
+/* Sections */
+section { padding: 64px 0 8px; }
+h2 { font-family: var(--display); font-weight: 700; font-size: clamp(1.6rem, 3vw, 2.1rem); letter-spacing: -0.02em; margin: 0 0 26px; }
+.about p { max-width: 68ch; margin: 0 0 14px; color: var(--ink); }
+.about p.soft { color: var(--muted); }
+
+/* Experience */
+.job { display: grid; grid-template-columns: 190px 1fr; gap: 28px; padding: 26px 0; border-top: 1px solid var(--line); }
+.job:last-child { border-bottom: 1px solid var(--line); }
+.when { color: var(--muted); font-size: 0.93rem; }
+.when b { display: block; color: var(--ink); font-weight: 600; }
+.job h3 { margin: 0 0 4px; font-family: var(--display); font-size: 1.2rem; font-weight: 700; letter-spacing: -0.01em; }
+.job .org { color: var(--muted); margin: 0 0 12px; font-size: 0.97rem; }
+.job ul { margin: 0; padding-left: 1.15em; }
+.job li { margin-bottom: 6px; max-width: 70ch; }
+
+/* Projects */
+.proj { display: grid; grid-template-columns: 290px 1fr; gap: 32px; align-items: start; }
+.proj-list { display: flex; flex-direction: column; gap: 4px; border-left: 2px solid var(--line); }
+.proj-tab {
+  text-align: left; background: transparent; border: 0; border-left: 2px solid transparent; margin-left: -2px;
+  padding: 10px 14px; cursor: pointer; color: var(--muted); font: inherit; font-size: 0.97rem; line-height: 1.35;
+}
+.proj-tab small { display: block; font-size: 0.8rem; color: var(--muted); opacity: 0.85; margin-top: 2px; }
+.proj-tab:hover { color: var(--ink); }
+.proj-tab[aria-selected="true"] { color: var(--ink); font-weight: 600; border-left-color: var(--accent); background: var(--chip); }
+.proj-panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 28px 30px 30px; min-height: 340px; }
+.proj-panel h3 { margin: 0 0 6px; font-family: var(--display); font-size: 1.45rem; font-weight: 700; letter-spacing: -0.015em; }
+.proj-panel .sum { color: var(--muted); margin: 0 0 18px; max-width: 62ch; }
+.proj-panel h4 { margin: 18px 0 8px; font-family: var(--display); font-size: 1rem; font-weight: 700; }
+.proj-panel ul { margin: 0; padding-left: 1.15em; }
+.proj-panel li { margin-bottom: 6px; max-width: 66ch; }
+.result { margin-top: 18px; padding: 12px 14px; border-left: 3px solid var(--accent); background: var(--chip); border-radius: 0 8px 8px 0; font-weight: 500; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
+.chip { background: var(--chip); border: 1px solid var(--line); border-radius: 999px; padding: 3px 12px; font-size: 0.84rem; color: var(--ink); }
+
+/* Skills */
+.skills { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 48px; }
+.skill { padding: 16px 0; border-top: 1px solid var(--line); }
+.skill h3 { margin: 0 0 4px; font-family: var(--display); font-size: 1.02rem; font-weight: 700; }
+.skill p { margin: 0; color: var(--muted); font-size: 0.97rem; }
+
+/* Learning */
+.learn { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.learn div { border-top: 2px solid var(--accent); padding-top: 12px; }
+.learn b { display: block; font-family: var(--display); font-size: 1.02rem; margin-bottom: 4px; }
+.learn span { color: var(--muted); font-size: 0.95rem; }
+
+/* Contact */
+.contact { padding-bottom: 72px; }
+.contact p { max-width: 60ch; color: var(--muted); margin: 0 0 22px; }
+footer { border-top: 1px solid var(--line); padding: 22px 0 36px; color: var(--muted); font-size: 0.88rem; }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+  .numbers { grid-template-columns: repeat(2, 1fr); }
+  .numbers div:nth-child(3) { padding-left: 0; border-left: 0; }
+  .numbers div:nth-child(n+3) { border-top: 1px solid var(--line); }
+  .job { grid-template-columns: 1fr; gap: 6px; }
+  .proj { grid-template-columns: 1fr; gap: 18px; }
+  .proj-list { flex-direction: row; overflow-x: auto; border-left: 0; border-bottom: 2px solid var(--line); gap: 4px; padding-bottom: 0; }
+  .proj-tab { flex: 0 0 auto; border-left: 0; border-bottom: 2px solid transparent; margin: 0 0 -2px; white-space: nowrap; }
+  .proj-tab small { display: none; }
+  .proj-tab[aria-selected="true"] { border-bottom-color: var(--accent); background: transparent; }
+  .skills, .learn { grid-template-columns: 1fr; }
+  nav { gap: 14px; }
+  nav a.opt { display: none; }
+}
+@media (max-width: 520px) {
+  body { font-size: 16px; }
+  .hero { padding-top: 44px; }
+  .proj-panel { padding: 22px 18px 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">Muhammad Abdullah</a>
+    <nav aria-label="Main">
+      <a href="#work">Work</a>
+      <a href="#projects">Projects</a>
+      <a class="opt" href="#skills">Skills</a>
+      <a href="#contact">Contact</a>
+      <button class="theme-btn" id="theme" type="button" aria-label="Switch between light and dark theme">◐</button>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+  <div class="wrap hero" id="top">
+    <div class="hero-grid">
+      <div>
+        <h1>I turn access, infrastructure and deployments into reviewed code.</h1>
+        <p class="lede">I'm a DevOps engineer at nullBrainer. I manage Zero Trust access for an enterprise browser entirely in Terraform, and I build on AWS, Docker, Kubernetes and CI/CD.</p>
+        <p class="where">Based in Lahore, Pakistan. Open to DevOps, cloud and platform roles in Pakistan, the Gulf, and remote.</p>
+        <div class="actions">
+          <a class="btn primary" href="Muhammad_Abdullah_DevOps_CV.pdf" download>Download CV</a>
+          <a class="btn ghost" href="#projects">See my projects</a>
+        </div>
+        <div class="links">
+          <a href="mailto:abdullahg1921@gmail.com">Email</a>
+          <a href="https://www.linkedin.com/in/m-abd052" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="https://github.com/abdullahg1921" target="_blank" rel="noopener">GitHub</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="plan" role="img" aria-label="Example Terraform plan showing one rule priority change and zero resources destroyed">
+          <div class="plan-bar"><span>terraform plan</span><span>develop</span></div>
+          <div class="plan-body" id="plan">
+<span class="ln cmd">$ terraform plan</span>
+<span class="ln dim">Terraform will perform the following actions:</span>
+<span class="ln"> </span>
+<span class="ln chg">  # access_rule.engineering_apps will be updated in-place</span>
+<span class="ln chg">  ~ resource "access_rule" "engineering_apps" {</span>
+<span class="ln chg">      ~ priority = 14 -&gt; 9</span>
+<span class="ln dim">        groups   = ["engineering", "qa"]</span>
+<span class="ln dim">    }</span>
+<span class="ln"> </span>
+<span class="ln add">Plan: 0 to add, 1 to change, 0 to destroy.</span>
+          </div>
+        </div>
+        <p class="plan-cap">A simplified plan, like the ones I review in pull requests: one rule reordered, no permissions changed, nothing destroyed.</p>
+      </div>
+    </div>
+
+    <div class="numbers">
+      <div><b>700+</b><span>lines of peer-reviewed Terraform</span></div>
+      <div><b>55+</b><span>pull requests, develop first then production</span></div>
+      <div><b>30+</b><span>identity groups under least privilege</span></div>
+      <div><b>0</b><span>resources destroyed in a major provider upgrade</span></div>
+    </div>
+  </div>
+
+  <section class="wrap about" id="about">
+    <h2>About</h2>
+    <p>I studied Computer Systems Engineering and started in networking: a CCNA-level foundation and an ISP internship configuring routers, switches and VLANs. That background is why I still debug from DNS up to the application.</p>
+    <p>From there I moved into cloud and DevOps through internships on AWS, Docker and CI/CD, and now work on production infrastructure as code. The work is mostly Terraform, GitHub Actions and a lot of reading audit logs to find out what a rule is really doing.</p>
+    <p class="soft">How I work: small pull requests with clear descriptions, develop before production, questions before granting access, and a note on the security trade-off before I make a change.</p>
+  </section>
+
+  <section class="wrap" id="work">
+    <h2>Work</h2>
+
+    <article class="job">
+      <div class="when"><b>Feb 2026 to now</b>Lahore, Pakistan</div>
+      <div>
+        <h3>Junior DevOps Engineer</h3>
+        <p class="org">nullBrainer</p>
+        <ul>
+          <li>Run an enterprise browser's Zero Trust policies entirely as Terraform: 700+ lines across 55+ reviewed pull requests, deployed to develop first and then production.</li>
+          <li>Handle access requests end to end: new identity groups, app onboarding, device-trust rules and DLP controls, with least-privilege reasoning for each change.</li>
+          <li>Find root causes in rule priority and wildcard matching using Terraform and audit logs, then fix them without changing anyone's permissions.</li>
+          <li>Upgraded the Terraform provider across a major version and worked around provider bugs affecting about 20 resources.</li>
+          <li>Extended a shared GitHub Actions workflow and moved production deployment approvals to team-based governance.</li>
+          <li>Built Kubernetes, Jenkins and AWS deployment projects, and set up Grafana for monitoring.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="job">
+      <div class="when"><b>2023 to now</b>Self-directed</div>
+      <div>
+        <h3>Independent Cloud and DevOps Projects</h3>
+        <ul>
+          <li>Built AWS environments (EC2, VPC, IAM, Route 53) with Terraform, with Auto Scaling, load balancers and CloudWatch metrics.</li>
+          <li>Administered and hardened Ubuntu servers. Built ReverseRDP, a secure remote access proof of concept.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="job">
+      <div class="when"><b>Oct to Dec 2025</b>Remote</div>
+      <div>
+        <h3>Cloud Computing Intern</h3>
+        <p class="org">CodeAlpha</p>
+        <ul>
+          <li>Deployed a data-redundancy removal system on AWS, added SQL-injection prevention and encryption, and automated validation and backups with Python.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="job">
+      <div class="when"><b>Aug to Oct 2025</b>Remote</div>
+      <div>
+        <h3>DevOps Engineer Intern</h3>
+        <p class="org">Code Sentinel</p>
+        <ul>
+          <li>Built GitHub Actions pipelines that test, build Docker images and deploy to staging. Provisioned AWS test environments with Terraform and the CLI.</li>
+          <li>Wrote Bash and Python scripts for S3 backups, log checks and health pings, and documented runbooks.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="job">
+      <div class="when"><b>Sep to Oct 2024</b>Mirpur, AJK</div>
+      <div>
+        <h3>Network Engineer Intern</h3>
+        <p class="org">Sky Telecom</p>
+        <ul>
+          <li>Configured Cisco routers and switches with VLANs, ACLs, OSPF and BGP, and cut latency by 30%.</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <section class="wrap" id="projects">
+    <h2>Projects</h2>
+    <div class="proj">
+      <div class="proj-list" role="tablist" aria-label="Projects" aria-orientation="vertical" id="tabs"></div>
+      <div class="proj-panel" id="panel" role="tabpanel" aria-live="polite" tabindex="0"></div>
+    </div>
+  </section>
+
+  <section class="wrap" id="skills">
+    <h2>Skills</h2>
+    <div class="skills">
+      <div class="skill"><h3>Infrastructure as code</h3><p>Terraform (HCL), provider management, remote state on S3, plan and apply through pull requests</p></div>
+      <div class="skill"><h3>Cloud (AWS)</h3><p>EC2, S3, IAM, VPC, Route 53, ELB and ALB, Auto Scaling, ECS, CloudWatch, Managed Grafana</p></div>
+      <div class="skill"><h3>CI/CD and version control</h3><p>GitHub Actions (composite actions), Jenkins, GitLab CI/CD, Git, GitHub environments and branch protection</p></div>
+      <div class="skill"><h3>Containers</h3><p>Docker, Docker-in-Docker, Kubernetes, container networking, service discovery</p></div>
+      <div class="skill"><h3>Security</h3><p>Zero Trust, IAM and RBAC, data loss prevention, conditional access, device posture, SAML SSO, JumpCloud, CrowdStrike</p></div>
+      <div class="skill"><h3>Monitoring</h3><p>Grafana, Prometheus, CloudWatch, audit-log analysis</p></div>
+      <div class="skill"><h3>Linux and web servers</h3><p>Ubuntu, CentOS, Nginx, systemd, Let's Encrypt, system hardening</p></div>
+      <div class="skill"><h3>Scripting and networking</h3><p>Bash, Python, JavaScript; TCP/IP, DNS, VLANs, NAT, DHCP, OSPF, BGP</p></div>
+    </div>
+  </section>
+
+  <section class="wrap" id="learning">
+    <h2>Education and learning</h2>
+    <div class="learn">
+      <div><b>BSc Computer Systems Engineering</b><span>Mirpur University of Science and Technology, 2021 to 2025</span></div>
+      <div><b>AWS Solutions Architect Associate</b><span>Training completed, preparing for the exam</span></div>
+      <div><b>Linux Administration, Networking</b><span>Udemy courses by Imran Afzal and David Bombal</span></div>
+    </div>
+  </section>
+
+  <section class="wrap contact" id="contact">
+    <h2>Contact</h2>
+    <p>I'm looking for DevOps, cloud and platform roles. Email is the fastest way to reach me, and my CV has the full details.</p>
+    <div class="actions">
+      <a class="btn primary" href="mailto:abdullahg1921@gmail.com">abdullahg1921@gmail.com</a>
+      <a class="btn ghost" href="Muhammad_Abdullah_DevOps_CV.pdf" download>Download CV</a>
+      <a class="btn ghost" href="https://www.linkedin.com/in/m-abd052" target="_blank" rel="noopener">LinkedIn</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">© 2026 Muhammad Abdullah</div>
+</footer>
+
+<script>
+/* ---------- Theme toggle ---------- */
+(function () {
+  var root = document.documentElement;
+  try {
+    var saved = localStorage.getItem('theme');
+    if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+  } catch (e) {}
+  document.getElementById('theme').addEventListener('click', function () {
+    var current = root.getAttribute('data-theme') ||
+      (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = current === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('theme', next); } catch (e) {}
+  });
+})();
+
+/* ---------- Hero: terraform plan reveals once on load ---------- */
+(function () {
+  var lines = document.querySelectorAll('#plan .ln');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  lines.forEach(function (l, i) { if (i > 0) l.classList.add('hide'); });
+  var i = 1;
+  setTimeout(function tick() {
+    if (i >= lines.length) return;
+    lines[i].classList.remove('hide');
+    i++;
+    setTimeout(tick, 170);
+  }, 500);
+})();
+
+/* ---------- Projects: list on the left, detail on the right ---------- */
+var PROJECTS = [
+  {
+    name: 'Zero Trust access as code', area: 'Security, Terraform',
+    sum: 'The whole access layer of an enterprise browser, managed in Terraform instead of a console.',
+    did: [
+      'Built application access policies and 30+ identity groups, scoped to least privilege.',
+      'Renamed and restructured groups across multiple resources to match organizational changes without breaking existing access.',
+      'Shipped every change through a pull request with a plan review, to develop first and then production.'
+    ],
+    stack: ['Terraform', 'GitHub Actions', 'JumpCloud', 'SAML SSO'],
+    result: '700+ lines of Terraform across 55+ reviewed pull requests.'
+  },
+  {
+    name: 'Terraform provider upgrade', area: 'IaC, reliability',
+    sum: 'A major provider version jump on a live codebase, done without touching what was already deployed.',
+    did: [
+      'Upgraded the provider from 0.42.0 to 1.6.0 and fixed lock-file checksum mismatches.',
+      'Validated on develop and checked the plan before production.',
+      'Fixed "inconsistent result after apply" errors on about 20 resources, and phantom plan diffs, with explicit configuration and lifecycle workarounds, and documented the trade-offs for reviewers.',
+      'Isolated an API HTTP 500 by testing with a separate profile, and escalated it to the vendor.'
+    ],
+    stack: ['Terraform', 'Provider debugging', 'Vendor support'],
+    result: 'A plan with zero resources destroyed reached production.'
+  },
+  {
+    name: 'Clipboard data loss prevention', area: 'Security, DLP',
+    sum: 'Limits how much text can be copied out of company apps, applied as reusable code.',
+    did: [
+      'Wrote regex-based detectors that block clipboard copies over 512 characters, plus a 1,024-character variant.',
+      'Combined the detector with an existing copy-and-paste restriction in one reusable profile.',
+      'Applied it across 12 access rules and explained the behavior to the support team.'
+    ],
+    stack: ['Terraform', 'Regex', 'DLP'],
+    result: 'Tested on real ticket text: 409 characters allowed, 543 blocked.'
+  },
+  {
+    name: 'Device posture as code', area: 'Zero Trust, Linux, macOS, Windows',
+    sum: 'Trusted-device checks that were created by hand in a UI, rebuilt as Terraform.',
+    did: [
+      'Translated manually created detections into code without overwriting existing objects.',
+      'Linux: JumpCloud agent and disk encryption. macOS: CrowdStrike, JumpCloud, FileVault and SIP. Windows: CrowdStrike and JumpCloud.',
+      'Used the provider docs to find the right schema, and built rules so engineers on trusted devices can download files.'
+    ],
+    stack: ['Terraform', 'CrowdStrike', 'JumpCloud', 'FileVault'],
+    result: 'Device trust is now versioned, reviewed and repeatable.'
+  },
+  {
+    name: 'Multi-environment platform rollout', area: 'AWS, Terraform',
+    sum: 'Access for a self-hosted automation platform, reworked for dev, QA and production.',
+    did: [
+      'Rebuilt a single-environment pull request into three environments when the platform moved from hosted to self-hosted.',
+      'Traced the real domains through a separate infrastructure repo: ECS module, ALB listener rules, Route 53 records and variables.',
+      'Set a different trust level per environment, with production uploads blocked until the use case is defined.'
+    ],
+    stack: ['Terraform', 'ECS', 'ALB', 'Route 53'],
+    result: 'Each environment gets only the access it needs.'
+  },
+  {
+    name: 'GitHub Actions and deploy governance', area: 'CI/CD',
+    sum: 'Fixing a failing pull request check, and tightening who can approve production deployments.',
+    did: [
+      'Found that a required check only accepted Jira sub-tasks, and added an opt-in boolean input to the shared composite action (JavaScript, Jira REST API).',
+      'Kept the strict default for every other repo, and reworked the design after review so new issue types would not break it.',
+      'Moved production approvers into Terraform, and switched from individual users to a team after a security review.'
+    ],
+    stack: ['GitHub Actions', 'JavaScript', 'Jira API', 'Terraform'],
+    result: 'Same strict checks everywhere, with one repo opted in.'
+  },
+  {
+    name: 'Kubernetes chat application', area: 'Containers',
+    sum: 'A multi-service chat app on Kubernetes, built to learn how things fail.',
+    did: [
+      'Deployed the services on a Kubernetes cluster.',
+      'Resolved pod crashes, service discovery problems and DNS resolution issues across the containers.'
+    ],
+    stack: ['Kubernetes', 'Docker', 'DNS'],
+    result: 'A working multi-service deployment and a clear debugging routine.'
+  },
+  {
+    name: 'Jenkins and Docker pipeline', area: 'CI/CD',
+    sum: 'An automated build and deploy pipeline that runs the same way every time.',
+    did: [
+      'Automated the pipeline with Jenkins and Docker.',
+      'Configured Docker-in-Docker builds and container networking.'
+    ],
+    stack: ['Jenkins', 'Docker', 'Docker-in-Docker'],
+    result: 'Consistent local deployments from one pipeline.'
+  },
+  {
+    name: 'Python backend on AWS', area: 'AWS, Linux',
+    sum: 'A self-healing deployment for a Python service that parses and validates data.',
+    did: [
+      'Set up an Ubuntu EC2 instance with an isolated Python virtual environment.',
+      'Wrote a systemd service so the app starts on boot and restarts after a crash.',
+      'Put Nginx in front as a reverse proxy, and prepared HTTPS with Let\'s Encrypt.'
+    ],
+    stack: ['EC2', 'Ubuntu', 'systemd', 'Nginx', 'Certbot'],
+    result: 'If the app crashes, it comes back on its own.'
+  },
+  {
+    name: 'ReverseRDP', area: 'Networking, Security',
+    sum: 'A proof of concept for remote desktop access without opening public ports.',
+    did: [
+      'Built a relay server on Linux and an agent for Windows.',
+      'Secured connections with MongoDB-backed authentication.'
+    ],
+    stack: ['Linux', 'Windows', 'MongoDB', 'Networking'],
+    result: 'Controlled RDP access with no exposed public ports.'
+  }
+];
+
+(function () {
+  var tabs = document.getElementById('tabs');
+  var panel = document.getElementById('panel');
+  var buttons = [];
+
+  function show(i) {
+    var p = PROJECTS[i];
+    buttons.forEach(function (b, k) {
+      b.setAttribute('aria-selected', k === i ? 'true' : 'false');
+      b.tabIndex = k === i ? 0 : -1;
+    });
+    panel.setAttribute('aria-labelledby', 'tab-' + i);
+    panel.innerHTML =
+      '<h3>' + p.name + '</h3>' +
+      '<p class="sum">' + p.sum + '</p>' +
+      '<h4>What I did</h4><ul>' + p.did.map(function (d) { return '<li>' + d + '</li>'; }).join('') + '</ul>' +
+      '<div class="result">' + p.result + '</div>' +
+      '<div class="chips">' + p.stack.map(function (s) { return '<span class="chip">' + s + '</span>'; }).join('') + '</div>';
+  }
+
+  PROJECTS.forEach(function (p, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'proj-tab';
+    b.id = 'tab-' + i;
+    b.setAttribute('role', 'tab');
+    b.innerHTML = p.name + '<small>' + p.area + '</small>';
+    b.addEventListener('click', function () { show(i); });
+    b.addEventListener('keydown', function (e) {
+      var next = null;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') next = (i + 1) % PROJECTS.length;
+      if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') next = (i - 1 + PROJECTS.length) % PROJECTS.length;
+      if (next !== null) { e.preventDefault(); show(next); buttons[next].focus(); }
+    });
+    tabs.appendChild(b);
+    buttons.push(b);
+  });
+  show(0);
+})();
+</script>
+</body>
+</html>
